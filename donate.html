@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Donate - Circuitech</title>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+<style>
+body {
+    margin: 0;
+    font-family: Arial;
+    background: #0d0d0d;
+    color: white;
+}
+
+/* HEADER */
+header {
+    background: #111;
+    text-align: center;
+    padding: 20px 10px;
+}
+
+.logo {
+    width: 90px;
+    border-radius: 50%;
+    margin-bottom: 10px;
+}
+
+.brand h1 {
+    margin: 5px 0 0;
+    color: cyan;
+}
+
+.brand p {
+    color: #aaa;
+}
+
+/* NAV */
+nav {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
+nav a {
+    color: white;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+nav a:hover {
+    color: cyan;
+}
+
+/* DONATE */
+.donate {
+    text-align: center;
+    padding: 50px 20px;
+}
+
+.donate h2 {
+    color: cyan;
+}
+
+.qr {
+    width: 250px;
+    margin: 20px 0;
+    border-radius: 15px;
+    box-shadow: 0 0 20px cyan;
+}
+
+.note {
+    max-width: 600px;
+    margin: auto;
+    color: #aaa;
+}
+
+/* AMOUNT BUTTONS */
+.amounts button {
+    margin: 5px;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 8px;
+    background: #222;
+    color: white;
+    cursor: pointer;
+}
+
+.amounts button:hover {
+    background: cyan;
+    color: black;
+}
+
+/* MAIN UPI BUTTON */
+.upi-btn {
+    display: inline-block;
+    margin-top: 15px;
+    padding: 12px 20px;
+    background: cyan;
+    color: black;
+    text-decoration: none;
+    border-radius: 10px;
+    font-weight: bold;
+}
+
+/* APP BUTTONS */
+.upi-apps {
+    margin-top: 20px;
+}
+
+.app-btn {
+    display: inline-block;
+    margin: 5px;
+    padding: 10px 15px;
+    background: #222;
+    color: white;
+    text-decoration: none;
+    border-radius: 8px;
+}
+
+.app-btn:hover {
+    background: cyan;
+    color: black;
+}
+
+/* FOOTER */
+footer {
+    text-align: center;
+    padding: 20px;
+    background: #111;
+    color: #777;
+    margin-top: 40px;
+}
+</style>
+</head>
+
+<body>
+
+<header>
+    <img src="logo.png" class="logo">
+
+    <div class="brand">
+        <h1>CIRCUITECH</h1>
+        <p>IoT | Robotics | Automation | Hardware | Software</p>
+    </div>
+
+    <nav>
+        <a href="home.html"><i class="fas fa-home"></i> Home</a>
+        <a href="projects.html"><i class="fas fa-microchip"></i> Projects</a>
+        <a href="#"><i class="fas fa-user"></i> Know</a>
+        <a href="https://www.instagram.com/circuitechh?igsh=dWt1d2Q1dzU5cHh5" target="_blank">
+            <i class="fab fa-instagram"></i> Go to Channel
+        </a>
+        <a href="donate.html"><i class="fas fa-donate"></i> Donate</a>
+    </nav>
+</header>
+
+<section class="donate">
+    <h2>Support Circuitech</h2>
+
+    <p class="note">
+       If you find these projects helpful, consider supporting the work.
+        Your contribution helps in building more innovative IoT and hardware projects,
+        improving content quality, and bringing new ideas to life.
+    </p>
+
+    <!-- QR -->
+    <img src="upi-qr.png" class="qr">
+
+    <p class="note">   Scan the QR code using any UPI app or use quick donate below </p>
+
+    <!-- AMOUNT -->
+    <div class="amounts">
+        <button onclick="setAmount(10)">₹10</button>
+        <button onclick="setAmount(50)">₹50</button>
+        <button onclick="setAmount(100)">₹100</button>
+        <button onclick="customAmount()">Custom</button>
+    </div>
+
+    <!-- GENERIC UPI -->
+    <a id="upiLink" class="upi-btn">
+        Pay via UPI App
+    </a>
+
+    <!-- APP BUTTONS -->
+    <div class="upi-apps">
+        <button class="app-btn" onclick="openApp('gpay')">GPay</button>
+        <button class="app-btn" onclick="openApp('phonepe')">PhonePe</button>
+        <button class="app-btn" onclick="openApp('paytm')">Paytm</button>
+    </div>
+
+    <p class="note">Thank you for your contribution</p>
+
+    <p class="note">@team_circuitech</p>
+</section>
+
+<footer>
+    © 2026 Circuitech
+</footer>
+
+<script>
+let currentAmount = "";
+
+// Set amount
+function setAmount(amount) {
+    currentAmount = amount;
+    updateLink();
+}
+
+// Custom amount
+function customAmount() {
+    let amount = prompt("Enter amount:");
+    if (amount && !isNaN(amount)) {
+        currentAmount = amount;
+        updateLink();
+    }
+}
+
+// Update generic link
+function updateLink() {
+    let link = "upi://pay?pa=56rajat@upi&pn=Circuitech&cu=INR";
+    if(currentAmount) link += "&am=" + currentAmount;
+    document.getElementById("upiLink").href = link;
+}
+
+// Open specific app
+function openApp(app) {
+    let base = "";
+
+    if(app === "gpay") base = "tez://upi/pay";
+    if(app === "phonepe") base = "phonepe://pay";
+    if(app === "paytm") base = "paytmmp://pay";
+
+    let link = base + "?pa=56rajat@upi&pn=Circuitech&cu=INR";
+    if(currentAmount) link += "&am=" + currentAmount;
+
+    window.location.href = link;
+}
+</script>
+
+</body>
+</html>

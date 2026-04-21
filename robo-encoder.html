@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Robo Encoder - Circuitech</title>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+<style>
+body {
+    margin: 0;
+    font-family: Arial;
+    background: #0d0d0d;
+    color: white;
+}
+
+/* HEADER */
+header {
+    background: #111;
+    text-align: center;
+    padding: 20px;
+}
+
+.logo {
+    width: 80px;
+    border-radius: 50%;
+}
+
+h1 {
+    color: cyan;
+}
+
+/* CONTAINER */
+.container {
+    max-width: 900px;
+    margin: auto;
+    padding: 30px;
+}
+
+/* SECTION BOX */
+.box {
+    background: #111;
+    padding: 20px;
+    border-radius: 12px;
+    margin-bottom: 20px;
+}
+
+h2 {
+    color: cyan;
+}
+
+/* CODE BLOCK */
+pre {
+    background: black;
+    padding: 15px;
+    border-radius: 10px;
+    overflow-x: auto;
+    color: #00ffcc;
+}
+
+/* IMAGE */
+img {
+    width: 100%;
+    border-radius: 10px;
+}
+
+/* BUTTON */
+.btn {
+    display: inline-block;
+    padding: 10px 15px;
+    background: cyan;
+    color: black;
+    text-decoration: none;
+    border-radius: 8px;
+    font-weight: bold;
+}
+
+/* COPY BUTTON */
+.copy-btn {
+    background: cyan;
+    border: none;
+    padding: 8px 12px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: bold;
+    margin-bottom: 10px;
+    transition: 0.3s;
+}
+
+.copy-btn:hover {
+    background: white;
+}
+.box ul {
+    padding-left: 20px;
+    color: #aaa;
+}
+
+.box li {
+    margin: 5px 0;
+}
+
+.box p {
+    color: #ccc;
+    line-height: 1.6;
+}
+</style>
+</head>
+
+<body>
+
+<header>
+    <img src="logo.png" class="logo">
+    <h1>Controlling Robo Using Rotary Encoder</h1>
+</header>
+
+<div class="container">
+
+    <!-- INTRO -->
+    <div class="box">
+        <h2>Project Overview</h2>
+        <p>
+            This project demonstrates how a robotic head can be controlled using a rotary encoder
+            with ESP8266. The movement is reflected in real-time on a web interface.
+        </p>
+    </div>
+
+    <!-- VIDEO -->
+    <div class="box">
+        <h2>Original Video</h2>
+        <p>Watch full demonstration of the project:</p>
+
+        <a class="btn" href="https://www.instagram.com/circuitechh/reel/DXYebsOkzSC/" target="_blank">
+            Watch on Instagram
+        </a>
+    </div>
+
+    <!-- CIRCUIT -->
+    <div class="box">
+        <h2>Circuit Diagram</h2>
+        <img src="circuit.jpg" alt="Circuit Diagram">
+    </div>
+
+    <!-- CODE -->
+ <div class="box">
+    <h2>Code</h2>
+
+    <!-- COPY BUTTON -->
+    <button class="copy-btn" onclick="copyCode()">📋 Copy Code</button>
+
+    <pre id="codeBlock">
+<div class="box">
+#include &lt;ESP8266WiFi.h&gt;
+#include &lt;ESP8266WebServer.h&gt;
+
+#define CLK D2
+#define DT  D3   // risky pin (handled safely)
+#define SW  D4
+
+ESP8266WebServer server(80);
+
+volatile int position = 0;
+int lastCLK;
+
+// WiFi
+const char* ssid = "Robot_Head";
+const char* password = "12345678";
+
+// 🌐 Webpage
+String webpage = R"rawliteral(
+&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;head&gt;
+&lt;meta name="viewport" content="width=device-width, initial-scale=1"&gt;
+&lt;style&gt;
+body {
+    margin: 0;
+    background: radial-gradient(circle, #0f2027, #203a43, #2c5364);
+    text-align: center;
+    color: white;
+    font-family: Arial;
+    perspective: 800px;
+}
+
+#robot {
+    width: 200px;
+    height: 200px;
+    margin: 80px auto;
+    transform-style: preserve-3d;
+}
+
+#head {
+    width: 100%;
+    height: 100%;
+    background: #222;
+    border-radius: 25px;
+    border: 4px solid cyan;
+    position: relative;
+}
+
+.eye {
+    width: 35px;
+    height: 35px;
+    background: cyan;
+    border-radius: 50%;
+    position: absolute;
+    top: 55px;
+}
+
+#eye1 { left: 35px; }
+#eye2 { right: 35px; }
+
+#mouth {
+    width: 70px;
+    height: 8px;
+    background: cyan;
+    position: absolute;
+    bottom: 35px;
+    left: 50%;
+    transform: translateX(-50%);
+}
+&lt;/style&gt;
+&lt;/head&gt;
+&lt;body&gt;
+
+&lt;h2&gt;🤖 Robot Head&lt;/h2&gt;
+
+&lt;div id="robot"&gt;
+  &lt;div id="head"&gt;
+    &lt;div class="eye" id="eye1"&gt;&lt;/div&gt;
+    &lt;div class="eye" id="eye2"&gt;&lt;/div&gt;
+    &lt;div id="mouth"&gt;&lt;/div&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+
+&lt;script&gt;
+let angle = 0;
+let smooth = 0;
+
+function getData(){
+    fetch("/get")
+    .then(r =&gt; r.text())
+    .then(d =&gt; {
+        angle = Math.max(-90, Math.min(90, d * 5));
+    });
+}
+
+function animate(){
+    smooth += (angle - smooth) * 0.2;
+    document.getElementById("robot").style.transform =
+        "rotateY(" + smooth + "deg)";
+    requestAnimationFrame(animate);
+}
+
+setInterval(getData, 100);
+animate();
+&lt;/script&gt;
+
+&lt;/body&gt;
+&lt;/html&gt;
+)rawliteral";
+
+void handleRoot() {
+  server.send(200, "text/html", webpage);
+}
+
+void handleData() {
+  server.send(200, "text/plain", String(position));
+}
+
+void setup() {
+  Serial.begin(115200);
+
+  pinMode(DT, INPUT_PULLUP);
+  delay(500);
+
+  pinMode(CLK, INPUT);
+  pinMode(SW, INPUT_PULLUP);
+
+  lastCLK = digitalRead(CLK);
+
+  WiFi.mode(WIFI_AP);
+  WiFi.softAP(ssid, password);
+
+  server.on("/", handleRoot);
+  server.on("/get", handleData);
+  server.begin();
+}
+
+void loop() {
+  server.handleClient();
+
+  int currentCLK = digitalRead(CLK);
+
+  if (currentCLK != lastCLK) {
+    if (digitalRead(DT) != currentCLK) position++;
+    else position--;
+  }
+
+  lastCLK = currentCLK;
+}
+    </code></pre>
+</div> </pre>
+</div>
+
+<div class="box">
+    <h2>Libraries Required</h2>
+
+    <ul>
+        <li>ESP8266WiFi</li>
+        <li>ESP8266WebServer</li>
+    </ul>
+
+    <p>
+        Install these libraries from Arduino IDE → Tools → Manage Libraries.
+    </p>
+</div>
+
+    <!-- PROCEDURE -->
+    <div class="box">
+        <h2>Procedure</h2>
+
+        <p>
+            1️⃣ Required : Open Arduino IDE and press [ctrl+n]. Download the libraries provided above from Tools → Manage Libraries. Paste the code provided above. Upload code dierectly to ESP8266 before connecting Rotary Encoder.<br>
+            2️⃣ While uploading the code, select the board as <b>NodeMCU 1.0 (ESP-12E Module) </b>and choose the correct COM port. If the COM port is not visible, open Command Prompt (CMD), type 'mode' , and press Enter. It will display the device status as CON:X or Y (Eg. COM:16 or COM:17 etc.). If nothing is shown, ensure that the device is properly connected and functioning correctly. After selecting the COM port, click Upload and wait until the process shows “Uploading Completed.”<br>
+            3️⃣  Now connect rotary encoder to ESP8266 as the wiring shown above in the circuit diagram. You can also connect a 3.7V battery as Possitive(+) to Vin and Negative(-) to GND of ESP8266.<br>
+            4️⃣ After connecting open wifi settings and connect with a wifi called "Robot_Head" through Phone or PC and the password is <b>12345678</b>.<br>
+            5️⃣  Open any Browser on your device and type the IP address <b>192.168.4.1</b> and click search (internet not required).<br>
+            6️⃣ Congrates💐. You are now contolling a Web-Robo. Rotate encoder to control.
+        </p>
+    </div>
+    <!-- Transcript -->
+<div class="box">
+    <h2>Video Transcript</h2>
+<p>Hi everyone, today I’m going to show you my Robo Head control system built using an ESP8266 NodeMCU and a rotary encoder. This project demonstrates how physical input can be used to control a virtual system in real time through a web interface.This is a prototype system that demonstrates how physical input can control a robotic movement wirelessly.I used an ESP8266 NodeMCU as the main controller, along with a rotary encoder to capture rotation input.The system is powered using a battery, making it completely wireless and portable. The ESP8266 hosts a Wi-Fi network, and once connected, a web page opens in the browser through an IP address. On this page, a Robo Head interface is displayed. As I rotate the encoder, the movement is captured and sent to the ESP8266.You can see the Robo Head turning left and right in real time, creating a smooth and interactive control system.This works using real-time data transmission between the hardware and the web interface, making it a simple IoT-based control system.This kind of system can be extended to robotics, surveillance systems, or even remote-controlled devices.Using the same concept, an actual robot can be controlled wirelessly in real time.The range depends on the Wi-Fi signal, typically around 20 to 50 meters, and can vary based on obstacles and environment. All the components, connections, and code are provided in the description. Thank you for watching, for further information you can DM me. Thank You.
+</p>
+
+
+</div>
+    <!-- NOTES -->
+    <div class="box">
+        <h2>Note</h2>
+        <p>
+            This is a prototype system. The same concept can be used for real robotic arms,
+            camera gimbals, and robotic head control.
+        </p>
+    </div>
+
+</div>
+
+<script>
+function copyCode() {
+    const code = document.getElementById("codeBlock").innerText;
+
+    navigator.clipboard.writeText(code).then(() => {
+        alert("Code copied successfully!");
+    });
+}
+</script>
+
+</body>
+</html>

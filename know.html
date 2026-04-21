@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Know - Circuitech</title>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+<style>
+body {
+    margin: 0;
+    font-family: Arial;
+    background: #0d0d0d;
+    color: white;
+}
+
+/* HEADER */
+header {
+    background: #111;
+    text-align: center;
+    padding: 20px 10px;
+}
+
+.logo {
+    width: 90px;
+    border-radius: 50%;
+    margin-bottom: 10px;
+}
+
+.brand h1 {
+    margin: 5px 0 0;
+    color: cyan;
+}
+
+.brand p {
+    color: #aaa;
+}
+
+/* NAV */
+nav {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
+nav a {
+    color: white;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+nav a:hover {
+    color: cyan;
+}
+
+/* SECTION */
+.section {
+    padding: 50px 20px;
+    max-width: 1000px;
+    margin: auto;
+}
+
+/* BOX */
+.box {
+    background: #111;
+    padding: 25px;
+    border-radius: 15px;
+    margin-bottom: 25px;
+    transition: 0.3s;
+}
+
+.box:hover {
+    box-shadow: 0 0 20px cyan;
+    transform: translateY(-5px);
+}
+
+.box h2 {
+    color: cyan;
+    margin-bottom: 15px;
+}
+
+.box p {
+    color: #aaa;
+    line-height: 1.6;
+}
+
+/* CARDS */
+.cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 20px;
+    margin-top: 20px;
+}
+
+.card {
+    background: #0d0d0d;
+    padding: 20px;
+    border-radius: 12px;
+    text-align: center;
+    transition: 0.3s;
+    border: 1px solid #222;
+}
+
+.card:hover {
+    box-shadow: 0 0 20px cyan;
+    transform: scale(1.05);
+}
+
+.card i {
+    font-size: 30px;
+    margin-bottom: 10px;
+    color: cyan;
+}
+
+/* CONNECT */
+.connect {
+    text-align: center;
+}
+
+.connect a {
+    color: cyan;
+    text-decoration: none;
+}
+
+/* FOOTER */
+footer {
+    text-align: center;
+    padding: 20px;
+    background: #111;
+    color: #777;
+    margin-top: 40px;
+}
+</style>
+</head>
+
+<body>
+
+<header>
+    <img src="logo.png" class="logo">
+
+    <div class="brand">
+        <h1>CIRCUITECH</h1>
+        <p>IoT | Robotics | Automation | Hardware | Software</p>
+    </div>
+
+    <nav>
+        <a href="home.html"><i class="fas fa-home"></i> Home</a>
+        <a href="projects.html"><i class="fas fa-microchip"></i> Projects</a>
+        <a href="know.html"><i class="fas fa-user"></i> Know</a>
+        <a href="https://www.instagram.com/circuitechh?igsh=dWt1d2Q1dzU5cHh5" target="_blank">
+            <i class="fab fa-instagram"></i> Go to Channel
+        </a>
+        <a href="donate.html"><i class="fas fa-donate"></i> Donate</a>
+    </nav>
+</header>
+
+<section class="section">
+
+    <!-- ABOUT CIRCUITECH -->
+    <div class="box">
+        <h2>About Circuitech</h2>
+
+        <p>
+            Circuitech is a technology platform focused on IoT, robotics, automation,
+            and hardware/software innovation created in 2026. The goal is to make complex systems simple,
+            practical, and accessible for everyone.
+        </p>
+
+        <p>
+            Each project shared on the channel is supported with complete resources
+            including circuit diagrams, source code, and step-by-step explanations.
+        </p>
+
+        <p>
+            This platform is built for learners, makers, and developers who want to
+            build real-world systems instead of just theory.
+        </p>
+    </div>
+
+    <!-- ABOUT DEVELOPER -->
+    <div class="box">
+        <h2>About Developer</h2>
+
+        <p>
+            Hello, I am <b>Rajat Chakraborty</b>, an Electrical Engineer and the creator of Circuitech.
+            I am passionate about IoT, robotics, automation, and hardware system design.
+        </p>
+
+        <p>
+            I have personally designed and developed this website to provide complete
+            project resources, making it easier for learners to understand and build systems.
+        </p>
+
+        <p>
+            My aim is to simplify complex technologies and share practical knowledge
+            through real-world projects.
+        </p>
+    </div>
+
+    <!-- WHAT YOU WILL FIND -->
+    <div class="box">
+        <h2>What You Will Find</h2>
+
+        <div class="cards">
+            <div class="card">
+                <i class="fas fa-microchip"></i>
+                <h3>IoT Projects</h3>
+                <p>Real-world connected systems using controller modules, sensors, and wireless control.</p>
+            </div>
+
+            <div class="card">
+                <i class="fas fa-robot"></i>
+                <h3>Robotics</h3>
+                <p>Control systems, automation builds, and real-time hardware interaction projects.</p>
+            </div>
+
+            <div class="card">
+                <i class="fas fa-code"></i>
+                <h3>Source Code</h3>
+                <p>Complete working code with proper explanation for every project.</p>
+            </div>
+
+            <div class="card">
+                <i class="fas fa-tools"></i>
+                <h3>Hardware Guides</h3>
+                <p>Components, circuit diagrams, and step-by-step setup instructions.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- CONNECT -->
+    <div class="box connect">
+        <h2>Connect</h2>
+
+        <p>Follow on Social Media for latest updates 👇</p>
+
+        <a href="https://www.instagram.com/circuitechh?igsh=dWt1d2Q1dzU5cHh5" target="_blank">
+            <i class="fab fa-instagram"></i> @circuitech
+        </a>
+    </div>
+    <div class="box">
+    <h2>Business & Promotion</h2>
+
+    <p>
+        For business inquiries, collaborations, sponsorships, or promotions,
+       reach out via email.
+    </p>
+
+    <p>
+        📧 Email: 
+        <a href="mailto:yourmail@example.com" class="email-link">
+            circuitech56@gmail.com
+        </a>
+    </p>
+
+    <p>
+        I am open to working on innovative projects, product promotions,
+        and technical collaborations related to IoT, robotics, and hardware systems.
+    </p>
+</div>
+
+</section>
+
+<footer>
+    © 2026 Circuitech
+</footer>
+
+</body>
+</html>

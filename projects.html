@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Projects - Circuitech</title>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+<style>
+body {
+    margin: 0;
+    font-family: Arial;
+    background: #0d0d0d;
+    color: white;
+}
+
+/* HEADER */
+header {
+    background: #111;
+    text-align: center;
+    padding: 20px 10px;
+}
+
+.logo {
+    width: 80px;
+    border-radius: 50%;
+    margin-bottom: 10px;
+}
+
+.brand h1 {
+    margin: 0;
+    color: cyan;
+    font-size: 2rem;
+}
+
+.brand p {
+    margin: 5px 0 15px;
+    color: #aaa;
+}
+
+/* NAV */
+nav {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
+nav a {
+    color: white;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 14px;
+    transition: 0.3s;
+}
+
+nav a:hover {
+    color: cyan;
+    transform: scale(1.1);
+}
+
+/* SECTION */
+.projects {
+    padding: 40px;
+}
+
+.projects h2 {
+    text-align: center;
+    color: cyan;
+    margin-bottom: 20px;
+}
+
+/* 🔥 PREMIUM SEARCH BOX */
+.search-box {
+    max-width: 450px;
+    margin: auto;
+    margin-bottom: 25px;
+    position: relative;
+
+    background: linear-gradient(145deg, #111, #0a0a0a);
+    border-radius: 12px;
+    padding: 5px;
+    box-shadow: 0 0 10px rgba(0,255,255,0.2);
+    transition: 0.3s;
+}
+
+/* glow on focus */
+.search-box:focus-within {
+    box-shadow: 0 0 20px cyan;
+}
+
+.search-box input {
+    width: 100%;
+    padding: 12px 80px 12px 40px;
+    border-radius: 10px;
+    border: none;
+    outline: none;
+    background: transparent;
+    color: white;
+    font-size: 14px;
+}
+
+/* search icon */
+.search-icon {
+    position: absolute;
+    left: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: cyan;
+}
+
+/* clear button */
+#clearBtn {
+    position: absolute;
+    right: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #aaa;
+    cursor: pointer;
+    font-size: 16px;
+    transition: 0.3s;
+}
+
+#clearBtn:hover {
+    color: red;
+}
+
+/* GRID */
+.grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+}
+
+/* CARD */
+.card {
+    background: #111;
+    padding: 20px;
+    border-radius: 15px;
+    transition: 0.3s;
+    cursor: pointer;
+    text-decoration: none;
+    color: white;
+    display: block;
+}
+
+.card:hover {
+    transform: scale(1.05);
+    box-shadow: 0 0 20px cyan;
+}
+
+.card p {
+    color: #aaa;
+}
+
+/* FOOTER */
+footer {
+    text-align: center;
+    padding: 20px;
+    background: #111;
+    color: #777;
+    margin-top: 40px;
+}
+</style>
+</head>
+
+<body>
+
+<header>
+    <img src="logo.png" class="logo">
+
+    <div class="brand">
+        <h1>CIRCUITECH</h1>
+        <p>IoT | Robotics | Automation | Hardware | Software</p>
+    </div>
+
+    <nav>
+        <a href="home.html"><i class="fas fa-home"></i> Home</a>
+        <a href="projects.html"><i class="fas fa-microchip"></i> Projects</a>
+        <a href="know.html"><i class="fas fa-user"></i> Know</a>
+        <a href="https://www.instagram.com/circuitechh?igsh=dWt1d2Q1dzU5cHh5" target="_blank">
+            <i class="fab fa-instagram"></i> Go to Channel
+        </a>
+        <a href="donate.html"><i class="fas fa-donate"></i> Donate</a>
+    </nav>
+</header>
+
+<section class="projects">
+
+    <!-- SEARCH -->
+    <div class="search-box">
+        <i class="fas fa-search search-icon"></i>
+
+        <input type="text" id="searchInput" placeholder="Search projects...">
+
+        <span id="clearBtn">✖</span>
+    </div>
+
+    <h2>Projects</h2>
+
+    <div class="grid">
+
+        <a href="robo-encoder.html" class="card">
+            <h3>Controlling Robo Using Rotary Encoder</h3>
+            <p>
+                Control a robotic head using ESP8266 and rotary encoder
+                with real-time web interface interaction.
+            </p>
+        </a>
+
+    </div>
+</section>
+
+<footer>
+    © 2026 Circuitech
+</footer>
+
+<!-- SCRIPT -->
+<script>
+const searchInput = document.getElementById("searchInput");
+const cards = document.querySelectorAll(".card");
+const clearBtn = document.getElementById("clearBtn");
+
+// FILTER
+searchInput.addEventListener("input", function () {
+    const value = this.value.toLowerCase();
+
+    cards.forEach(card => {
+        const text = card.innerText.toLowerCase();
+
+        if (text.includes(value)) {
+            card.style.display = "";
+        } else {
+            card.style.display = "none";
+        }
+    });
+});
+
+// CLEAR
+clearBtn.addEventListener("click", function () {
+    searchInput.value = "";
+
+    cards.forEach(card => {
+        card.style.display = "";
+    });
+});
+</script>
+
+</body>
+</html>
